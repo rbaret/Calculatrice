@@ -1,0 +1,22 @@
+﻿<Window x:Class="Calculatrice.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Calculatrice"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="567.614" Width="800">
+    <Grid>
+        <Button x:Name="button9" Content="9" HorizontalAlignment="Left" Margin="207,179,0,0" VerticalAlignment="Top" Width="75" Height="61"/>
+        <Button x:Name="button8" Content="8" HorizontalAlignment="Left" Margin="297,179,0,0" VerticalAlignment="Top" Width="75" Height="61"/>
+        <Button x:Name="button7" Content="7" HorizontalAlignment="Left" Margin="388,179,0,0" VerticalAlignment="Top" Width="75" Height="61"/>
+        <Button x:Name="button6" Content="6" HorizontalAlignment="Left" Margin="207,255,0,0" VerticalAlignment="Top" Width="75" Height="61"/>
+        <Button x:Name="button5" Content="5" HorizontalAlignment="Left" Margin="297,255,0,0" VerticalAlignment="Top" Width="75" Height="61"/>
+        <Button x:Name="button4" Content="4" HorizontalAlignment="Left" Margin="388,255,0,0" VerticalAlignment="Top" Width="75" Height="61"/>
+        <Button x:Name="button3" Content="3" HorizontalAlignment="Left" Margin="207,332,0,0" VerticalAlignment="Top" Width="75" Height="61"/>
+        <Button x:Name="button2" Content="2" HorizontalAlignment="Left" Margin="297,332,0,0" VerticalAlignment="Top" Width="75" Height="61"/>
+        <Button x:Name="button1" Content="1" HorizontalAlignment="Left" Margin="388,332,0,0" VerticalAlignment="Top" Width="75" Height="61"/>
+        <Button x:Name="button0" Content="0" HorizontalAlignment="Left" Margin="297,409,0,0" VerticalAlignment="Top" Width="75" Height="61"/>
+
+    </Grid>
+</Window>
