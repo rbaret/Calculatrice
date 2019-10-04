@@ -20,7 +20,8 @@ namespace Calculatrice
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string inputString = "";
+        private StringBuilder inputString = new StringBuilder();
+        private string finalString;
         private ulong inputULong = 0;
         private double inputDouble = 0;
         private double result = 0;
@@ -34,10 +35,10 @@ namespace Calculatrice
         {
             if (isDecimal)
             {
-                inputDouble = double.Parse(inputString);
+                inputDouble = double.Parse(finalString);
             }
             else
-                inputULong = ulong.Parse(inputString);
+                inputULong = ulong.Parse(finalString);
 
         }
 
@@ -45,7 +46,7 @@ namespace Calculatrice
         {
             buildInputStringFromKeyboard(e.Key);
         }
-        private void inputString_textCanged()
+        private void inputString_textChanged()
         {
 
         }
@@ -56,8 +57,8 @@ namespace Calculatrice
         public void buildInputStringFromKeyboard(Key inputKey) {
             switch (inputKey) {
                 case Key.D0:
-                    if (!String.IsNullOrEmpty(inputString))
-                        inputString.Append('0');
+                    if (!String.IsNullOrEmpty(finalString))
+                        inputString.Append("0");
                     break;
                 case Key.D1:
                     inputString.Append('1');
@@ -87,12 +88,63 @@ namespace Calculatrice
                     inputString.Append('9');
                     break;
             }
-            textBoxHistory.Text = inputString;
+            finalString = inputString.ToString();
+            textBoxHistory.Text = finalString;
         }
-
+        public void buildInputStringFromButton(char buttonContent)
+        {
+            inputString.Append(buttonContent);
+            finalString = inputString.ToString();
+            textBoxHistory.Text = finalString;
+        }
         private void button9_Click(object sender, RoutedEventArgs e)
         {
-            inputString.Append('9');
+            buildInputStringFromButton('9');
+        }
+
+        private void button8_Click(object sender, RoutedEventArgs e)
+        {
+            buildInputStringFromButton('9');
+        }
+
+        private void button7_Click(object sender, RoutedEventArgs e)
+        {
+            buildInputStringFromButton('9');
+        }
+
+        private void button6_Click(object sender, RoutedEventArgs e)
+        {
+            buildInputStringFromButton('9');
+        }
+
+        private void button5_Click(object sender, RoutedEventArgs e)
+        {
+            buildInputStringFromButton('9');
+        }
+
+        private void button4_Click(object sender, RoutedEventArgs e)
+        {
+            buildInputStringFromButton('9');
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void button0_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
