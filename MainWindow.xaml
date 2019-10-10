@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculatrice"
         mc:Ignorable="d"
-        Title="MainWindow" Height="453.614" Width="290">
-    <Grid Margin="0,0,2,0" KeyDown="onKeyDown">
+        Title="MainWindow" Height="453.614" Width="606" KeyDown="onKeyDown">
+    <Grid Margin="0,0,2,0">
         <Button x:Name="button9" Content="9" HorizontalAlignment="Left" Margin="141,154,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="calcBtn_Click" FontSize="25" Background="#FFDFF9FF" BorderBrush="#FFFFCECE"/>
         <Button x:Name="button8" Content="8" HorizontalAlignment="Left" Margin="76,154,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="calcBtn_Click" FontSize="25" Background="#FFDFF9FF" BorderBrush="#FFFFCECE"/>
         <Button x:Name="button7" Content="7" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="calcBtn_Click" FontSize="25" Background="#FFDFF9FF" BorderBrush="#FFFFCECE"/>
@@ -25,6 +25,12 @@
         <Button x:Name="buttonAdd" Content="+" HorizontalAlignment="Left" Margin="207,350,0,0" VerticalAlignment="Top" Width="60" Height="60" Click="calcBtn_Click" FontSize="25" Background="#FFDFF9FF" BorderBrush="#FFFFCECE"/>
         <TextBox x:Name="textBoxHistory" HorizontalAlignment="Left" Height="101" Margin="10,7,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="258" TextAlignment="Right" IsReadOnly="True"/>
         <TextBox x:Name="textBoxResult" HorizontalAlignment="Left" Height="36" Margin="10,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="258" TextAlignment="Right" IsReadOnly="True"/>
+        <Label x:Name="label" Content="Opérande 1" HorizontalAlignment="Left" Margin="316,60,0,0" VerticalAlignment="Top" Height="30"/>
+        <Label x:Name="label1" Content="Opérande 2" HorizontalAlignment="Left" Height="30" Margin="316,90,0,0" VerticalAlignment="Top" Width="73"/>
+        <TextBlock x:Name="textBlockOp1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Margin="394,65,0,0" Width="154"/>
+        <TextBlock x:Name="textBlockOp2" HorizontalAlignment="Left" Margin="394,95,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <Label x:Name="label2" Content="Operateur" HorizontalAlignment="Left" Margin="316,120,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.211,0.038" Width="73"/>
+        <TextBlock x:Name="textBlockOperator" HorizontalAlignment="Left" Margin="394,125,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

@@ -32,6 +32,7 @@ namespace Calculatrice
         private enum Operator {add,sub,mult,div,none};
         private Operator currentOperator = Operator.none;
         private bool operatorIsArmed=false;
+        private bool isFinalResult = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -40,91 +41,126 @@ namespace Calculatrice
         {
             Button btn = sender as Button;
             string buttonValue = btn.Content.ToString();
+            parseButton(buttonValue);
+        }
+
+        private void parseButton(string buttonValue)
+        {
             if (numericKeys.Contains(buttonValue))
             {
-                operatorIsArmed = false;
-                if (!((currentNumberSB.Length == 0) && (buttonValue == "0")))
-                {
-                    currentNumberSB.Append(buttonValue);
-                    curNumberString = currentNumberSB.ToString();
-                }
-                textBoxResult.Text = curNumberString;
+                buildCurrentNumber(buttonValue);
+            }
+            else if (buttonValue == "." && !currentNumberIsDecimal)
+            {
+                currentNumberSB.Append(',');
+                curNumberString = currentNumberSB.ToString();
+                currentNumberIsDecimal = true;
             }
             else if (buttonValue == "=")
             {
-                if (Double.IsNaN(operande1) && !String.IsNullOrEmpty(curNumberString))
-                {
-                    result = Double.Parse(curNumberString);
-                }
-                else if (!Double.IsNaN(operande1) && currentOperator != Operator.none)
-                {
-                    if (Double.IsNaN(operande2))
-                    {
-                        result = execOperation(operande1, operande1, currentOperator);
-                    }
-                    else
-                    {
-                        result = execOperation(operande1, operande2, currentOperator);
-                    }
-                    textBoxResult.Text = result.ToString();
-                }
-                else if (!Double.IsNaN(operande2) && currentOperator != Operator.none && !String.IsNullOrEmpty(curNumberString))
-                {
-                    operande1 = Double.Parse(curNumberString);
-                    result = execOperation(operande1, operande2, currentOperator);
-                    textBoxResult.Text = result.ToString();
-                }
-                else
-                {
-                    result = Double.Parse(curNumberString);
-                    textBoxResult.Text = result.ToString();
-                }
-
-                operande1 = result;
-                textBoxResult.Text = result.ToString();
+                doTheMaths();
+                isFinalResult = true;
             }
-            else if (buttonValue == "+" && !String.IsNullOrEmpty(curNumberString))
+            else if (buttonValue == "+")
             {
-                if (!operatorIsArmed)
-                {
-                    if (double.IsNaN(operande1))
-                    {
-                        operande1 = Double.Parse(curNumberString);
-                        currentOperator = Operator.add;
-                        operatorIsArmed = true;
-                    }
-                    else if (!double.IsNaN(operande1) && currentOperator != Operator.none)
-                    {
-                        operande2 = Double.Parse(curNumberString);
-                        result = execOperation(operande1, operande2, currentOperator);
-                        textBoxResult.Text = result.ToString();
-                    }
-                    else
-                    {
-                        currentOperator = Operator.add;
-                        operatorIsArmed = true;
-                    }
-                    currentNumberSB.Clear();
-                    curNumberString = "";
-                }
-                else
-                {
-                    currentOperator = Operator.add;
-                    operatorIsArmed = true;
-                }
-                
+                textBlockOperator.Text = "+";
+                parseOperator(Operator.add);
             }
             else if (buttonValue == "-")
             {
-                currentOperator = Operator.sub;
+                textBlockOperator.Text = "-";
+                parseOperator(Operator.sub);
             }
             else if (buttonValue == "*")
             {
-                currentOperator = Operator.mult;
+                textBlockOperator.Text = "*";
+                parseOperator(Operator.mult);
             }
             else if (buttonValue == "/")
             {
-                currentOperator = Operator.div;
+                textBlockOperator.Text = "/";
+                parseOperator(Operator.div);
+            }
+        }
+        private void doTheMaths()
+        {
+            if (!String.IsNullOrEmpty(curNumberString))
+            {
+                operande2 = Double.Parse(curNumberString);
+            }
+            textBlockOp1.Text = operande1.ToString();
+            textBlockOp2.Text = operande2.ToString();
+            if (Double.IsNaN(operande1) && !String.IsNullOrEmpty(curNumberString))
+            {
+                result = Double.Parse(curNumberString);
+            }
+            else if (!Double.IsNaN(operande1) && currentOperator != Operator.none)
+            {
+                if (Double.IsNaN(operande2))
+                {
+                    result = execOperation(operande1, operande1, currentOperator);
+                }
+                else
+                {
+                    result = execOperation(operande1, operande2, currentOperator);
+                }
+                textBoxResult.Text = result.ToString();
+            }
+            else if (!Double.IsNaN(operande2) && currentOperator != Operator.none && !String.IsNullOrEmpty(curNumberString))
+            {
+                operande1 = Double.Parse(curNumberString);
+                result = execOperation(operande1, operande2, currentOperator);
+                textBoxResult.Text = result.ToString();
+            }
+            else
+            {
+                result = Double.Parse(curNumberString);
+                textBoxResult.Text = result.ToString();
+            }
+            operande1 = result;
+            textBoxResult.Text = result.ToString();
+            operatorIsArmed = false;
+            currentNumberSB.Clear();
+            curNumberString = "";
+        }
+        private void parseOperator(Operator curOperator)
+        {
+            isFinalResult = false;
+            if (!operatorIsArmed)
+            {
+                if (double.IsNaN(operande1))
+                {
+                    operande1 = Double.Parse(curNumberString);
+                    currentOperator = curOperator;
+                    operatorIsArmed = true;
+                    textBlockOp1.Text = operande1.ToString();
+                    textBlockOp2.Text = operande2.ToString();
+                }
+                else if (!double.IsNaN(operande1) && currentOperator != Operator.none && !String.IsNullOrEmpty(curNumberString))
+                {
+                    operande2 = Double.Parse(curNumberString);
+                    result = execOperation(operande1, operande2, currentOperator);
+                    operande1 = result;
+                    textBoxResult.Text = result.ToString();
+                    textBlockOp1.Text = operande1.ToString();
+                    textBlockOp2.Text = operande2.ToString();
+                    operatorIsArmed = true;
+                }
+                else
+                {
+                    currentOperator = curOperator;
+                    operatorIsArmed = true;
+                    textBlockOp1.Text = operande1.ToString();
+                    textBlockOp2.Text = operande2.ToString();
+                }
+                currentNumberSB.Clear();
+                curNumberString = "";
+
+            }
+            else
+            {
+                currentOperator = curOperator;
+                operatorIsArmed = true;
             }
         }
         private double execOperation(double a, double b, Operator op)
@@ -159,7 +195,23 @@ namespace Calculatrice
                     return result;
             }
         }
-
+        private void buildCurrentNumber(String number)
+        {
+            operatorIsArmed = false;
+            if (isFinalResult)
+            {
+                operande1 = Double.NaN;
+                isFinalResult = false;
+            }
+            if (!(currentNumberSB.Length == 1 && currentNumberSB.ToString() == "0"))
+            {
+                currentNumberSB.Append(number);
+                curNumberString = Double.Parse(currentNumberSB.ToString()).ToString();
+            }
+            textBoxResult.Text = curNumberString;
+            textBlockOp1.Text = operande1.ToString();
+            textBlockOp2.Text = operande2.ToString();
+        }
         private void onKeyDown(object sender, KeyEventArgs e)
         {
             buildInputStringFromKeyboard(e.Key);
@@ -168,142 +220,68 @@ namespace Calculatrice
         void buildInputStringFromKeyboard(Key inputKey) {
             switch (inputKey) {
                 case Key.NumPad0:
-                    if (!String.IsNullOrEmpty(curNumberString))
-                        currentNumberSB.Append('0');
+                    buildCurrentNumber("0");
                     break;
                 case Key.NumPad1:
-                    currentNumberSB.Append('1');
+                    buildCurrentNumber("1");
                     break;
                 case Key.NumPad2:
-                    currentNumberSB.Append('2');
+                    buildCurrentNumber("2");
                     break;
                 case Key.NumPad3:
-                    currentNumberSB.Append('3');
+                    buildCurrentNumber("3");
                     break;
                 case Key.NumPad4:
-                    currentNumberSB.Append('4');
+                    buildCurrentNumber("4");
                     break;
                 case Key.NumPad5:
-                    currentNumberSB.Append('5');
+                    buildCurrentNumber("5");
                     break;
                 case Key.NumPad6:
-                    currentNumberSB.Append('6');
+                    buildCurrentNumber("6");
                     break;
                 case Key.NumPad7:
-                    currentNumberSB.Append('7');
+                    buildCurrentNumber("7");
                     break;
                 case Key.NumPad8:
-                    currentNumberSB.Append('8');
+                    buildCurrentNumber("8");
                     break;
                 case Key.NumPad9:
-                    currentNumberSB.Append('9');
+                    buildCurrentNumber("9");
                     break;
-                case Key.Separator:
-                    currentNumberSB.Append('.');
+                case Key.OemComma:
+                    currentNumberSB.Append(',');
                     currentNumberIsDecimal = true;
                     break;
-            }
-            curNumberString = currentNumberSB.ToString();
-            textBoxResult.Text = curNumberString;
-        }
-            /*
-            private void calcBtn_Click(object sender, RoutedEventArgs e)
-            {
-                Button btn = sender as Button;
-                string buttonValue = btn.Content.ToString();
-                if (numericKeys.Contains(buttonValue))
-                {
-                    currentNumber.Append(buttonValue);
-                    curNumberString = currentNumber.ToString();
-                    textBoxHistory.Text = history + curNumberString;
-                }
-                if (buttonValue == "=")
-                {
-                    history += currentNumber.ToString();
-                    execOperation(parseCurNumberString(currentNumber.ToString()),currentOperator);
-                    currentOperator = Operators.none;
-                    currentNumberIsDecimal = false;
-                    textBoxHistory.Text = history;
-                    history.Append('\n');
+                case Key.Decimal:
+                    currentNumberSB.Append(',');
+                    currentNumberIsDecimal = true;
+                    break;
+                case Key.OemPeriod:
+                    currentNumberSB.Append(',');
+                    currentNumberIsDecimal = true;
+                    break;
+                case Key.Add:
+                    textBlockOperator.Text = "+";
+                    parseOperator(Operator.add);
+                    break;
+                case Key.Subtract:
+                    textBlockOperator.Text = "-";
+                    parseOperator(Operator.sub);
+                    break;
+                case Key.Divide:
+                    textBlockOperator.Text = "/";
+                    parseOperator(Operator.div);
+                    break;
+                case Key.Multiply:
+                    textBlockOperator.Text = "*";
+                    parseOperator(Operator.mult);
+                    break;
+                case Key.Enter:
+                    doTheMaths();
                     textBoxResult.Text = result.ToString();
-                    currentNumber.Clear();
-                }
-                if (buttonValue == "+")
-                {
-                    if (currentOperator!=Operators.none)
-                    {
-                        if (String.IsNullOrEmpty(currentNumber.ToString()))
-                            currentNumber.Append(result.ToString());
-                        String.Concat(history, currentNumber.ToString(),buttonValue);
-                        execOperation(parseCurNumberString(currentNumber.ToString()), currentOperator);
-                        currentNumberIsDecimal = false;
-                        textBoxResult.Text = result.ToString();
-                    }
-                    else
-                        currentOperator = Operators.add;
-                    String.Concat(history,'+'); 
-                    textBoxHistory.Text = history;
-                }
-                if (buttonValue == "-")
-                {
-                    if (currentOperator != Operators.none)
-                    {
-                        if (String.IsNullOrEmpty(currentNumber.ToString()))
-                            currentNumber.Append(result.ToString());
-                        String.Concat(history, currentNumber.ToString(),"-");
-                        currentNumberIsDecimal = false;
-                        execOperation(parseCurNumberString(currentNumber.ToString()), currentOperator);
-                        textBoxResult.Text = result.ToString();
-                    }
-                    else
-                        currentOperator = Operators.sub;
-                    String.Concat(history, '-');
-                    textBoxHistory.Text = history;
-                }
-                if (buttonValue == "*")
-                {
-                    if (currentOperator != Operators.none)
-                    {
-                        if (String.IsNullOrEmpty(currentNumber.ToString()))
-                            currentNumber.Append(result.ToString());
-                        String.Concat(history, currentNumber.ToString(), "*");
-                        currentNumberIsDecimal = false;
-                        execOperation(parseCurNumberString(currentNumber.ToString()), currentOperator);
-                        textBoxResult.Text = result.ToString();
-                    }
-                    else
-                        currentOperator = Operators.mult;
-                    String.Concat(history, '*');
-                    textBoxHistory.Text = history;
-                }
-                if (buttonValue == "/")
-                {
-                    if (currentOperator != Operators.none)
-                    {
-                        if (String.IsNullOrEmpty(currentNumber.ToString()))
-                            currentNumber.Append(result.ToString());
-                        String.Concat(history, currentNumber.ToString(),"/");
-                        currentNumberIsDecimal = false;
-                        execOperation(parseCurNumberString(currentNumber.ToString()), currentOperator);
-                        textBoxResult.Text = result.ToString();
-                    }
-                    else
-                        currentOperator = Operators.div;
-                    String.Concat(history, '/');
-                    textBoxHistory.Text = history;
-                }
-                if (buttonValue == ".")
-                {
-                    if (!currentNumberIsDecimal)
-                    {
-                        currentNumberIsDecimal = true;
-                        currentNumber.Append(buttonValue);
-                        curNumberString = currentNumber.ToString();
-                    }
-
-                }
+                    break;
             }
-            */
-
+        }
     }
 }
