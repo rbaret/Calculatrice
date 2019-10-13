@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
 namespace Calculatrice
 {
     /// <summary>
@@ -29,14 +20,16 @@ namespace Calculatrice
         private double result = 0;
         private bool currentNumberIsDecimal=false;
         private readonly string[] numericKeys = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-        private enum Operator {add,sub,mult,div,none};
+        private enum Operator {none,add,sub,mult,div};
         private Operator currentOperator = Operator.none;
         private bool operatorIsArmed=false;
         private bool isFinalResult = false;
+
         public MainWindow()
         {
             InitializeComponent();
         }
+
         private void calcBtn_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
@@ -82,6 +75,7 @@ namespace Calculatrice
                 parseOperator(Operator.div);
             }
         }
+
         private void doTheMaths()
         {
             if (!String.IsNullOrEmpty(curNumberString))
@@ -123,6 +117,7 @@ namespace Calculatrice
             currentNumberSB.Clear();
             curNumberString = "";
         }
+
         private void parseOperator(Operator curOperator)
         {
             isFinalResult = false;
@@ -155,7 +150,6 @@ namespace Calculatrice
                 }
                 currentNumberSB.Clear();
                 curNumberString = "";
-
             }
             else
             {
@@ -163,21 +157,22 @@ namespace Calculatrice
                 operatorIsArmed = true;
             }
         }
+
         private double execOperation(double a, double b, Operator op)
         {
             switch (op)
             {
                 case Operator.add:
                     {
-                        return (a + b);
+                        return a + b;
                     }
                 case Operator.sub:
                     {
-                        return (a - b);
+                        return a - b;
                     }
                 case Operator.mult:
                     {
-                        return (a * b);
+                        return a * b;
                     }
                 case Operator.div:
                     {
@@ -188,13 +183,14 @@ namespace Calculatrice
                         }
                         else
                         {
-                            return (a / b);
+                            return a / b;
                         }
                     }
                 default:
                     return result;
             }
         }
+
         private void buildCurrentNumber(String number)
         {
             operatorIsArmed = false;
@@ -212,6 +208,7 @@ namespace Calculatrice
             textBlockOp1.Text = operande1.ToString();
             textBlockOp2.Text = operande2.ToString();
         }
+
         private void onKeyDown(object sender, KeyEventArgs e)
         {
             buildInputStringFromKeyboard(e.Key);

@@ -27,10 +27,10 @@
         <TextBox x:Name="textBoxResult" HorizontalAlignment="Left" Height="36" Margin="10,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="258" TextAlignment="Right" IsReadOnly="True"/>
         <Label x:Name="label" Content="Opérande 1" HorizontalAlignment="Left" Margin="316,60,0,0" VerticalAlignment="Top" Height="30"/>
         <Label x:Name="label1" Content="Opérande 2" HorizontalAlignment="Left" Height="30" Margin="316,90,0,0" VerticalAlignment="Top" Width="73"/>
-        <TextBlock x:Name="textBlockOp1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Margin="394,65,0,0" Width="154"/>
-        <TextBlock x:Name="textBlockOp2" HorizontalAlignment="Left" Margin="394,95,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlockOp1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="NaN" VerticalAlignment="Top" Margin="394,65,0,0" Width="154"/>
+        <TextBlock x:Name="textBlockOp2" HorizontalAlignment="Left" Margin="394,95,0,0" TextWrapping="Wrap" Text="Nan" VerticalAlignment="Top"/>
         <Label x:Name="label2" Content="Operateur" HorizontalAlignment="Left" Margin="316,120,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.211,0.038" Width="73"/>
-        <TextBlock x:Name="textBlockOperator" HorizontalAlignment="Left" Margin="394,125,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlockOperator" HorizontalAlignment="Left" Margin="394,125,0,0" TextWrapping="Wrap" Text="none" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
