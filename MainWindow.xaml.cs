@@ -30,18 +30,18 @@ namespace Calculatrice
             InitializeComponent();
         }
 
-        private void calcBtn_Click(object sender, RoutedEventArgs e)
+        private void CalcBtn_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
             string buttonValue = btn.Content.ToString();
-            parseButton(buttonValue);
+            ParseButton(buttonValue);
         }
 
-        private void parseButton(string buttonValue)
+        private void ParseButton(string buttonValue)
         {
             if (numericKeys.Contains(buttonValue))
             {
-                buildCurrentNumber(buttonValue);
+                BuildCurrentNumber(buttonValue);
             }
             else if (buttonValue == "." && !currentNumberIsDecimal)
             {
@@ -51,32 +51,32 @@ namespace Calculatrice
             }
             else if (buttonValue == "=")
             {
-                doTheMaths();
+                DoTheMaths();
                 isFinalResult = true;
             }
             else if (buttonValue == "+")
             {
                 textBlockOperator.Text = "+";
-                parseOperator(Operator.add);
+                ParseOperator(Operator.add);
             }
             else if (buttonValue == "-")
             {
                 textBlockOperator.Text = "-";
-                parseOperator(Operator.sub);
+                ParseOperator(Operator.sub);
             }
             else if (buttonValue == "*")
             {
                 textBlockOperator.Text = "*";
-                parseOperator(Operator.mult);
+                ParseOperator(Operator.mult);
             }
             else if (buttonValue == "/")
             {
                 textBlockOperator.Text = "/";
-                parseOperator(Operator.div);
+                ParseOperator(Operator.div);
             }
         }
 
-        private void doTheMaths()
+        private void DoTheMaths()
         {
             if (!String.IsNullOrEmpty(curNumberString))
             {
@@ -92,18 +92,18 @@ namespace Calculatrice
             {
                 if (Double.IsNaN(operande2))
                 {
-                    result = execOperation(operande1, operande1, currentOperator);
+                    result = ExecOperation(operande1, operande1, currentOperator);
                 }
                 else
                 {
-                    result = execOperation(operande1, operande2, currentOperator);
+                    result = ExecOperation(operande1, operande2, currentOperator);
                 }
                 textBoxResult.Text = result.ToString();
             }
             else if (!Double.IsNaN(operande2) && currentOperator != Operator.none && !String.IsNullOrEmpty(curNumberString))
             {
                 operande1 = Double.Parse(curNumberString);
-                result = execOperation(operande1, operande2, currentOperator);
+                result = ExecOperation(operande1, operande2, currentOperator);
                 textBoxResult.Text = result.ToString();
             }
             else
@@ -118,7 +118,7 @@ namespace Calculatrice
             curNumberString = "";
         }
 
-        private void parseOperator(Operator curOperator)
+        private void ParseOperator(Operator curOperator)
         {
             isFinalResult = false;
             if (!operatorIsArmed)
@@ -134,7 +134,7 @@ namespace Calculatrice
                 else if (!double.IsNaN(operande1) && currentOperator != Operator.none && !String.IsNullOrEmpty(curNumberString))
                 {
                     operande2 = Double.Parse(curNumberString);
-                    result = execOperation(operande1, operande2, currentOperator);
+                    result = ExecOperation(operande1, operande2, currentOperator);
                     operande1 = result;
                     textBoxResult.Text = result.ToString();
                     textBlockOp1.Text = operande1.ToString();
@@ -158,7 +158,7 @@ namespace Calculatrice
             }
         }
 
-        private double execOperation(double a, double b, Operator op)
+        private double ExecOperation(double a, double b, Operator op)
         {
             switch (op)
             {
@@ -191,7 +191,7 @@ namespace Calculatrice
             }
         }
 
-        private void buildCurrentNumber(String number)
+        private void BuildCurrentNumber(String number)
         {
             operatorIsArmed = false;
             if (isFinalResult)
@@ -209,42 +209,42 @@ namespace Calculatrice
             textBlockOp2.Text = operande2.ToString();
         }
 
-        private void onKeyDown(object sender, KeyEventArgs e)
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            buildInputStringFromKeyboard(e.Key);
+            BuildInputStringFromKeyboard(e.Key);
         }
 
-        void buildInputStringFromKeyboard(Key inputKey) {
+        private void BuildInputStringFromKeyboard(Key inputKey) {
             switch (inputKey) {
                 case Key.NumPad0:
-                    buildCurrentNumber("0");
+                    BuildCurrentNumber("0");
                     break;
                 case Key.NumPad1:
-                    buildCurrentNumber("1");
+                    BuildCurrentNumber("1");
                     break;
                 case Key.NumPad2:
-                    buildCurrentNumber("2");
+                    BuildCurrentNumber("2");
                     break;
                 case Key.NumPad3:
-                    buildCurrentNumber("3");
+                    BuildCurrentNumber("3");
                     break;
                 case Key.NumPad4:
-                    buildCurrentNumber("4");
+                    BuildCurrentNumber("4");
                     break;
                 case Key.NumPad5:
-                    buildCurrentNumber("5");
+                    BuildCurrentNumber("5");
                     break;
                 case Key.NumPad6:
-                    buildCurrentNumber("6");
+                    BuildCurrentNumber("6");
                     break;
                 case Key.NumPad7:
-                    buildCurrentNumber("7");
+                    BuildCurrentNumber("7");
                     break;
                 case Key.NumPad8:
-                    buildCurrentNumber("8");
+                    BuildCurrentNumber("8");
                     break;
                 case Key.NumPad9:
-                    buildCurrentNumber("9");
+                    BuildCurrentNumber("9");
                     break;
                 case Key.OemComma:
                     currentNumberSB.Append(',');
@@ -260,22 +260,22 @@ namespace Calculatrice
                     break;
                 case Key.Add:
                     textBlockOperator.Text = "+";
-                    parseOperator(Operator.add);
+                    ParseOperator(Operator.add);
                     break;
                 case Key.Subtract:
                     textBlockOperator.Text = "-";
-                    parseOperator(Operator.sub);
+                    ParseOperator(Operator.sub);
                     break;
                 case Key.Divide:
                     textBlockOperator.Text = "/";
-                    parseOperator(Operator.div);
+                    ParseOperator(Operator.div);
                     break;
                 case Key.Multiply:
                     textBlockOperator.Text = "*";
-                    parseOperator(Operator.mult);
+                    ParseOperator(Operator.mult);
                     break;
                 case Key.Enter:
-                    doTheMaths();
+                    DoTheMaths();
                     textBoxResult.Text = result.ToString();
                     break;
             }
