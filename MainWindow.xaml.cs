@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -12,11 +13,11 @@ namespace Calculatrice
     public partial class MainWindow : Window
     {
         private StringBuilder currentNumberSB = new StringBuilder();
-        private StringBuilder historyStringSB = new StringBuilder();
-        private double operande1 = Double.NaN;
-        private double operande2 = Double.NaN;
+        //private StringBuilder historyStringSB = new StringBuilder();
+        private double operande1 = double.NaN;
+        private double operande2 = double.NaN;
         private string curNumberString = "0";
-        private string history = "";
+        //private string history = "";
         private double result = 0;
         private bool currentNumberIsDecimal=false;
         private readonly string[] numericKeys = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -80,17 +81,17 @@ namespace Calculatrice
         {
             if (!String.IsNullOrEmpty(curNumberString))
             {
-                operande2 = Double.Parse(curNumberString);
+                operande2 = double.Parse(curNumberString,CultureInfo.InvariantCulture);
             }
-            textBlockOp1.Text = operande1.ToString();
-            textBlockOp2.Text = operande2.ToString();
-            if (Double.IsNaN(operande1) && !String.IsNullOrEmpty(curNumberString))
+            textBlockOp1.Text = operande1.ToString(CultureInfo.InvariantCulture);
+            textBlockOp2.Text = operande2.ToString(CultureInfo.InvariantCulture);
+            if (double.IsNaN(operande1) && !String.IsNullOrEmpty(curNumberString))
             {
-                result = Double.Parse(curNumberString);
+                result = double.Parse(curNumberString,CultureInfo.InvariantCulture);
             }
-            else if (!Double.IsNaN(operande1) && currentOperator != Operator.none)
+            else if (!double.IsNaN(operande1) && currentOperator != Operator.none)
             {
-                if (Double.IsNaN(operande2))
+                if (double.IsNaN(operande2))
                 {
                     result = ExecOperation(operande1, operande1, currentOperator);
                 }
@@ -98,21 +99,21 @@ namespace Calculatrice
                 {
                     result = ExecOperation(operande1, operande2, currentOperator);
                 }
-                textBoxResult.Text = result.ToString();
+                textBoxResult.Text = result.ToString(CultureInfo.InvariantCulture);
             }
-            else if (!Double.IsNaN(operande2) && currentOperator != Operator.none && !String.IsNullOrEmpty(curNumberString))
+            else if (!double.IsNaN(operande2) && currentOperator != Operator.none && !String.IsNullOrEmpty(curNumberString))
             {
-                operande1 = Double.Parse(curNumberString);
+                operande1 = double.Parse(curNumberString,CultureInfo.InvariantCulture);
                 result = ExecOperation(operande1, operande2, currentOperator);
-                textBoxResult.Text = result.ToString();
+                textBoxResult.Text = result.ToString(CultureInfo.InvariantCulture);
             }
             else
             {
-                result = Double.Parse(curNumberString);
-                textBoxResult.Text = result.ToString();
+                result = double.Parse(curNumberString,CultureInfo.InvariantCulture);
+                textBoxResult.Text = result.ToString(CultureInfo.InvariantCulture);
             }
             operande1 = result;
-            textBoxResult.Text = result.ToString();
+            textBoxResult.Text = result.ToString(CultureInfo.InvariantCulture);
             operatorIsArmed = false;
             currentNumberSB.Clear();
             curNumberString = "";
@@ -125,28 +126,28 @@ namespace Calculatrice
             {
                 if (double.IsNaN(operande1))
                 {
-                    operande1 = Double.Parse(curNumberString);
+                    operande1 = double.Parse(curNumberString,CultureInfo.InvariantCulture);
                     currentOperator = curOperator;
                     operatorIsArmed = true;
-                    textBlockOp1.Text = operande1.ToString();
-                    textBlockOp2.Text = operande2.ToString();
+                    textBlockOp1.Text = operande1.ToString(CultureInfo.InvariantCulture);
+                    textBlockOp2.Text = operande2.ToString(CultureInfo.InvariantCulture);
                 }
                 else if (!double.IsNaN(operande1) && currentOperator != Operator.none && !String.IsNullOrEmpty(curNumberString))
                 {
-                    operande2 = Double.Parse(curNumberString);
+                    operande2 = double.Parse(curNumberString,CultureInfo.InvariantCulture);
                     result = ExecOperation(operande1, operande2, currentOperator);
                     operande1 = result;
-                    textBoxResult.Text = result.ToString();
-                    textBlockOp1.Text = operande1.ToString();
-                    textBlockOp2.Text = operande2.ToString();
+                    textBoxResult.Text = result.ToString(CultureInfo.InvariantCulture);
+                    textBlockOp1.Text = operande1.ToString(CultureInfo.InvariantCulture);
+                    textBlockOp2.Text = operande2.ToString(CultureInfo.InvariantCulture);
                     operatorIsArmed = true;
                 }
                 else
                 {
                     currentOperator = curOperator;
                     operatorIsArmed = true;
-                    textBlockOp1.Text = operande1.ToString();
-                    textBlockOp2.Text = operande2.ToString();
+                    textBlockOp1.Text = operande1.ToString(CultureInfo.InvariantCulture);
+                    textBlockOp2.Text = operande2.ToString(CultureInfo.InvariantCulture);
                 }
                 currentNumberSB.Clear();
                 curNumberString = "";
@@ -196,17 +197,17 @@ namespace Calculatrice
             operatorIsArmed = false;
             if (isFinalResult)
             {
-                operande1 = Double.NaN;
+                operande1 = double.NaN;
                 isFinalResult = false;
             }
             if (!(currentNumberSB.Length == 1 && currentNumberSB.ToString() == "0"))
             {
                 currentNumberSB.Append(number);
-                curNumberString = Double.Parse(currentNumberSB.ToString()).ToString();
+                curNumberString = currentNumberSB.ToString();
             }
             textBoxResult.Text = curNumberString;
-            textBlockOp1.Text = operande1.ToString();
-            textBlockOp2.Text = operande2.ToString();
+            textBlockOp1.Text = operande1.ToString(CultureInfo.InvariantCulture);
+            textBlockOp2.Text = operande2.ToString(CultureInfo.InvariantCulture);
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
