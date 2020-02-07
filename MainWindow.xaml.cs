@@ -19,11 +19,11 @@ namespace Calculatrice
         private string curNumberString = "0";
         //private string history = "";
         private double result = 0;
-        private bool currentNumberIsDecimal=false;
+        private bool currentNumberIsDecimal = false;
         private readonly string[] numericKeys = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-        private enum Operator {none,add,sub,mult,div};
+        private enum Operator { none, add, sub, mult, div };
         private Operator currentOperator = Operator.none;
-        private bool operatorIsArmed=false;
+        private bool operatorIsArmed = false;
         private bool isFinalResult = false;
 
         public MainWindow()
@@ -81,13 +81,13 @@ namespace Calculatrice
         {
             if (!String.IsNullOrEmpty(curNumberString))
             {
-                operande2 = double.Parse(curNumberString,CultureInfo.InvariantCulture);
+                operande2 = double.Parse(curNumberString, CultureInfo.InvariantCulture);
             }
             textBlockOp1.Text = operande1.ToString(CultureInfo.InvariantCulture);
             textBlockOp2.Text = operande2.ToString(CultureInfo.InvariantCulture);
             if (double.IsNaN(operande1) && !String.IsNullOrEmpty(curNumberString))
             {
-                result = double.Parse(curNumberString,CultureInfo.InvariantCulture);
+                result = double.Parse(curNumberString, CultureInfo.InvariantCulture);
             }
             else if (!double.IsNaN(operande1) && currentOperator != Operator.none)
             {
@@ -103,13 +103,13 @@ namespace Calculatrice
             }
             else if (!double.IsNaN(operande2) && currentOperator != Operator.none && !String.IsNullOrEmpty(curNumberString))
             {
-                operande1 = double.Parse(curNumberString,CultureInfo.InvariantCulture);
+                operande1 = double.Parse(curNumberString, CultureInfo.InvariantCulture);
                 result = ExecOperation(operande1, operande2, currentOperator);
                 textBoxResult.Text = result.ToString(CultureInfo.InvariantCulture);
             }
             else
             {
-                result = double.Parse(curNumberString,CultureInfo.InvariantCulture);
+                result = double.Parse(curNumberString, CultureInfo.InvariantCulture);
                 textBoxResult.Text = result.ToString(CultureInfo.InvariantCulture);
             }
             operande1 = result;
@@ -126,7 +126,7 @@ namespace Calculatrice
             {
                 if (double.IsNaN(operande1))
                 {
-                    operande1 = double.Parse(curNumberString,CultureInfo.InvariantCulture);
+                    operande1 = double.Parse(curNumberString, CultureInfo.InvariantCulture);
                     currentOperator = curOperator;
                     operatorIsArmed = true;
                     textBlockOp1.Text = operande1.ToString(CultureInfo.InvariantCulture);
@@ -134,7 +134,7 @@ namespace Calculatrice
                 }
                 else if (!double.IsNaN(operande1) && currentOperator != Operator.none && !String.IsNullOrEmpty(curNumberString))
                 {
-                    operande2 = double.Parse(curNumberString,CultureInfo.InvariantCulture);
+                    operande2 = double.Parse(curNumberString, CultureInfo.InvariantCulture);
                     result = ExecOperation(operande1, operande2, currentOperator);
                     operande1 = result;
                     textBoxResult.Text = result.ToString(CultureInfo.InvariantCulture);
@@ -215,8 +215,10 @@ namespace Calculatrice
             BuildInputStringFromKeyboard(e.Key);
         }
 
-        private void BuildInputStringFromKeyboard(Key inputKey) {
-            switch (inputKey) {
+        private void BuildInputStringFromKeyboard(Key inputKey)
+        {
+            switch (inputKey)
+            {
                 case Key.NumPad0:
                     BuildCurrentNumber("0");
                     break;
@@ -248,15 +250,15 @@ namespace Calculatrice
                     BuildCurrentNumber("9");
                     break;
                 case Key.OemComma:
-                    currentNumberSB.Append(',');
+                    currentNumberSB.Append('.');
                     currentNumberIsDecimal = true;
                     break;
                 case Key.Decimal:
-                    currentNumberSB.Append(',');
+                    currentNumberSB.Append('.');
                     currentNumberIsDecimal = true;
                     break;
                 case Key.OemPeriod:
-                    currentNumberSB.Append(',');
+                    currentNumberSB.Append('.');
                     currentNumberIsDecimal = true;
                     break;
                 case Key.Add:
@@ -277,7 +279,8 @@ namespace Calculatrice
                     break;
                 case Key.Enter:
                     DoTheMaths();
-                    textBoxResult.Text = result.ToString();
+                    textBoxResult.Text = result.ToString(CultureInfo.InvariantCulture);
+                    currentOperator = Operator.none;
                     break;
             }
         }
