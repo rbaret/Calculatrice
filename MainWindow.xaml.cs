@@ -279,8 +279,7 @@ namespace Calculatrice
                     break;
                 case Key.Enter:
                     DoTheMaths();
-                    textBoxResult.Text = result.ToString(CultureInfo.InvariantCulture);
-                    currentOperator = Operator.none;
+                    isFinalResult = true;
                     break;
             }
         }
